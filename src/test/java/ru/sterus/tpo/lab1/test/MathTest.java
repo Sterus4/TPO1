@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@DisplayName("Secant test")
 public class MathTest {
     {
         System.out.println("Math test class is created, starting tests.");
