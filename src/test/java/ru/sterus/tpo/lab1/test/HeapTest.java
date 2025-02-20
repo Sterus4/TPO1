@@ -7,11 +7,18 @@ import java.util.*;
 import java.util.stream.Stream;
 
 @DisplayName("Fibonacci Heap test")
-public class HeapTest {
+public class HeapTest implements TestLifecycleLogger{
     private static final Integer MAX_COUNT_OF_ELEM = 100;
+    private static final String EMPTY_HEAP_ERROR = "Fibonacci heap has to be empty";
+    private static final String HEAP_SIZE_ERROR = "Fibonacci heap has wrong amount of elements";
+
+    private final Random random = new Random();
     private FibonacciHeap<Integer> fibonacciHeap;
     private Integer countOfElems;
-    Random random = new Random();
+
+    private String errorOnData(List<Integer> data){
+        return String.format("Fibonacci heap property of sorted output not met on data: \n\t%s", data.toString());
+    }
 
     @BeforeEach
     void instantNewHeap(){
@@ -20,20 +27,26 @@ public class HeapTest {
     }
 
     @Test
+    @DisplayName("Try to extract min from empty Heap")
+    void extractMinFromEmptyHeapTest(){
+        Assertions.assertNull(fibonacciHeap.dequeueMin());
+    }
+
+    @Test
     @DisplayName("Empty Heap test")
     void emptyHeapTest(){
-        Assertions.assertTrue(fibonacciHeap.isEmpty());
+        Assertions.assertTrue(fibonacciHeap.isEmpty(), EMPTY_HEAP_ERROR);
     }
 
     @RepeatedTest(100)
     @DisplayName("Main Property of Heap (extract min)")
     void mainHeapProperty(){
-        Assertions.assertTrue(fibonacciHeap.isEmpty());
-        List<Integer> data        = Stream.generate(() -> random.nextInt()).limit(countOfElems).toList();
+        Assertions.assertTrue(fibonacciHeap.isEmpty(), EMPTY_HEAP_ERROR);
+        List<Integer> data        = Stream.generate(random::nextInt).limit(countOfElems).toList();
         List<Integer> sortedData  = data.stream().sorted().toList();
         data.forEach(a -> fibonacciHeap.enqueue(a, a));
-        Assertions.assertEquals(fibonacciHeap.size(), countOfElems);
-        sortedData.forEach(a -> Assertions.assertEquals(fibonacciHeap.dequeueMin().getValue(), a));
-        Assertions.assertTrue(fibonacciHeap.isEmpty());
+        Assertions.assertEquals(fibonacciHeap.size(), countOfElems, HEAP_SIZE_ERROR);
+        sortedData.forEach(a -> Assertions.assertEquals(fibonacciHeap.dequeueMin().getValue(), a, () -> errorOnData(data)));
+        Assertions.assertTrue(fibonacciHeap.isEmpty(), EMPTY_HEAP_ERROR);
     }
 }
