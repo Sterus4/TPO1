@@ -22,10 +22,15 @@ public class MyMath {
             current_eps = Math.abs(mySecCoeff(x, coef));
             result += toAdd;
         }
+        if (result > 1E10) return Double.POSITIVE_INFINITY;
+        if (result < -1E10) return Double.NEGATIVE_INFINITY;
         return result;
     }
 
     public static double sec(double x){
-        return 1.0 / Math.cos(x);
+        double res = 1.0 / Math.cos(x);
+        if (res > 1E10) return Double.POSITIVE_INFINITY;
+        if (res < -1E10) return Double.NEGATIVE_INFINITY;
+        return res;
     }
 }
