@@ -18,6 +18,7 @@ public class HeapTest implements TestLifecycleLogger{
 
     private final Random random = new Random();
     private FibonacciHeap<Integer> fibonacciHeap;
+    private Entry<Integer> fibonacciEntry;
     private Integer countOfElems;
 
     private String errorOnData(List<Integer> data){
@@ -120,7 +121,7 @@ public class HeapTest implements TestLifecycleLogger{
     }
 
     @RepeatedTest(100)
-    @DisplayName("Test of correct Fibonacci Heap structute")
+    @DisplayName("Test of correct Fibonacci Heap structure")
     void structureTest(){
         Assertions.assertTrue(fibonacciHeap.isEmpty(), EMPTY_HEAP_ERROR);
         List<Integer> data        = Stream.generate(random::nextInt).limit(countOfElems + 2).toList();
@@ -142,5 +143,24 @@ public class HeapTest implements TestLifecycleLogger{
             Assertions.assertTrue(checkTree(tmp));
             tmp = tmp.mNext;
         } while (tmp != fibonacciHeap.min());
+    }
+
+    @BeforeEach
+    void entryInstant(){
+        fibonacciEntry = new Entry<>(10, 2);
+    }
+
+    @Test
+    @DisplayName("Check if empty entry in double linked list")
+    void emptyEntry(){
+        Assertions.assertAll("Единственная пустая созданная запись должна быть единственной в двусвязном циклическом списке",
+                () -> Assertions.assertSame(fibonacciEntry.mNext, fibonacciEntry),
+                () -> Assertions.assertSame(fibonacciEntry.mPrev, fibonacciEntry));
+    }
+
+    @Test
+    @DisplayName("No Child test")
+    void noChildTest(){
+        Assertions.assertNull(fibonacciEntry.mChild);
     }
 }

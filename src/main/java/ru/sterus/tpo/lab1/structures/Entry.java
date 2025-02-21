@@ -26,19 +26,26 @@ public final class Entry<T> {
      * Sets the element associated with this heap entry.
      *
      * @param value The element to associate with this heap entry.
+     * If you want to use that method uncomment it
      */
+    /*
     public void setValue(T value) {
         mElem = value;
     }
+    */
 
     /**
      * Returns the priority of this element.
      *
      * @return The priority of this element.
+     * If you want to use that method uncomment it
      */
+    /*
     public double getPriority() {
         return mPriority;
     }
+    */
+
 
     /**
      * Constructs a new Entry that holds the given element with the indicated

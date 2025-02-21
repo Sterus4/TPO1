@@ -5,6 +5,7 @@ import ru.sterus.tpo.lab1.model.FlyingEntity;
 import ru.sterus.tpo.lab1.model.MyColor;
 import ru.sterus.tpo.lab1.model.Sky;
 import ru.sterus.tpo.lab1.model.Thunder;
+import ru.sterus.tpo.lab1.model.exception.EmptyListException;
 
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -57,5 +58,11 @@ public class ModelTest implements TestLifecycleLogger{
         int currentNumberOfDestruction = sky.getFlyingEntities().size();
         sky.moveAll();
         Assertions.assertEquals(sky.getAirDestruction(), currentNumberOfDestruction, AIR_DESTRUCTION_TEST_ERROR);
+    }
+
+    @Test
+    void emptyList(){
+        sky.moveAll();
+        Assertions.assertThrowsExactly(EmptyListException.class, () -> sky.moveOne());
     }
 }
