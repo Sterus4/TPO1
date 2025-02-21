@@ -79,7 +79,7 @@ public final class FibonacciHeap<T> {
      * @return An Entry representing that element in the tree.
      */
     public Entry<T> enqueue(T value, double priority) {
-        checkPriority(priority);
+//        checkPriority(priority);
 
         /* Create the entry object, which is a circularly-linked list of length
          * one.
@@ -140,27 +140,27 @@ public final class FibonacciHeap<T> {
      * @return A new FibonacciHeap containing all of the elements of both
      *         heaps.
      */
-    public static <T> FibonacciHeap<T> merge(FibonacciHeap<T> one, FibonacciHeap<T> two) {
-        /* Create a new FibonacciHeap to hold the result. */
-        FibonacciHeap<T> result = new FibonacciHeap<T>();
-
-        /* Merge the two Fibonacci heap root lists together.  This helper function
-         * also computes the min of the two lists, so we can store the result in
-         * the mMin field of the new heap.
-         */
-        result.mMin = mergeLists(one.mMin, two.mMin);
-
-        /* The size of the new heap is the sum of the sizes of the input heaps. */
-        result.mSize = one.mSize + two.mSize;
-
-        /* Clear the old heaps. */
-        one.mSize = two.mSize = 0;
-        one.mMin  = null;
-        two.mMin  = null;
-
-        /* Return the newly-merged heap. */
-        return result;
-    }
+//    public static <T> FibonacciHeap<T> merge(FibonacciHeap<T> one, FibonacciHeap<T> two) {
+//        /* Create a new FibonacciHeap to hold the result. */
+//        FibonacciHeap<T> result = new FibonacciHeap<T>();
+//
+//        /* Merge the two Fibonacci heap root lists together.  This helper function
+//         * also computes the min of the two lists, so we can store the result in
+//         * the mMin field of the new heap.
+//         */
+//        result.mMin = mergeLists(one.mMin, two.mMin);
+//
+//        /* The size of the new heap is the sum of the sizes of the input heaps. */
+//        result.mSize = one.mSize + two.mSize;
+//
+//        /* Clear the old heaps. */
+//        one.mSize = two.mSize = 0;
+//        one.mMin  = null;
+//        two.mMin  = null;
+//
+//        /* Return the newly-merged heap. */
+//        return result;
+//    }
 
     /**
      * Dequeues and returns the minimum element of the Fibonacci heap.  If the
@@ -324,14 +324,14 @@ public final class FibonacciHeap<T> {
      * @throws IllegalArgumentException If the new priority exceeds the old
      *         priority, or if the argument is not a finite double.
      */
-    public void decreaseKey(Entry<T> entry, double newPriority) {
-        checkPriority(newPriority);
-        if (newPriority > entry.mPriority)
-            throw new IllegalArgumentException("New priority exceeds old.");
-
-        /* Forward this to a helper function. */
-        decreaseKeyUnchecked(entry, newPriority);
-    }
+//    public void decreaseKey(Entry<T> entry, double newPriority) {
+//        checkPriority(newPriority);
+//        if (newPriority > entry.mPriority)
+//            throw new IllegalArgumentException("New priority exceeds old.");
+//
+//        /* Forward this to a helper function. */
+//        decreaseKeyUnchecked(entry, newPriority);
+//    }
 
     /**
      * Deletes this Entry from the Fibonacci heap that contains it.
@@ -341,15 +341,15 @@ public final class FibonacciHeap<T> {
      *
      * @param entry The entry to delete.
      */
-    public void delete(Entry<T> entry) {
-        /* Use decreaseKey to drop the entry's key to -infinity.  This will
-         * guarantee that the node is cut and set to the global minimum.
-         */
-        decreaseKeyUnchecked(entry, Double.NEGATIVE_INFINITY);
-
-        /* Call dequeueMin to remove it. */
-        dequeueMin();
-    }
+//    public void delete(Entry<T> entry) {
+//        /* Use decreaseKey to drop the entry's key to -infinity.  This will
+//         * guarantee that the node is cut and set to the global minimum.
+//         */
+//        decreaseKeyUnchecked(entry, Double.NEGATIVE_INFINITY);
+//
+//        /* Call dequeueMin to remove it. */
+//        dequeueMin();
+//    }
 
     /**
      * Utility function which, given a user-specified priority, checks whether
@@ -358,10 +358,10 @@ public final class FibonacciHeap<T> {
      * @param priority The user's specified priority.
      * @throws IllegalArgumentException If it is not valid.
      */
-    private void checkPriority(double priority) {
-        if (Double.isNaN(priority))
-            throw new IllegalArgumentException(priority + " is invalid.");
-    }
+//    private void checkPriority(double priority) {
+//        if (Double.isNaN(priority))
+//            throw new IllegalArgumentException(priority + " is invalid.");
+//    }
 
     /**
      * Utility function which, given two pointers into disjoint circularly-
@@ -442,25 +442,25 @@ public final class FibonacciHeap<T> {
      * @param entry The node whose key should be decreased.
      * @param priority The node's new priority.
      */
-    private void decreaseKeyUnchecked(Entry<T> entry, double priority) {
-        /* First, change the node's priority. */
-        entry.mPriority = priority;
-
-        /* If the node no longer has a higher priority than its parent, cut it.
-         * Note that this also means that if we try to run a delete operation
-         * that decreases the key to -infinity, it's guaranteed to cut the node
-         * from its parent.
-         */
-        if (entry.mParent != null && entry.mPriority <= entry.mParent.mPriority)
-            cutNode(entry);
-
-        /* If our new value is the new min, mark it as such.  Note that if we
-         * ended up decreasing the key in a way that ties the current minimum
-         * priority, this will change the min accordingly.
-         */
-        if (entry.mPriority <= mMin.mPriority)
-            mMin = entry;
-    }
+//    private void decreaseKeyUnchecked(Entry<T> entry, double priority) {
+//        /* First, change the node's priority. */
+//        entry.mPriority = priority;
+//
+//        /* If the node no longer has a higher priority than its parent, cut it.
+//         * Note that this also means that if we try to run a delete operation
+//         * that decreases the key to -infinity, it's guaranteed to cut the node
+//         * from its parent.
+//         */
+//        if (entry.mParent != null && entry.mPriority <= entry.mParent.mPriority)
+//            cutNode(entry);
+//
+//        /* If our new value is the new min, mark it as such.  Note that if we
+//         * ended up decreasing the key in a way that ties the current minimum
+//         * priority, this will change the min accordingly.
+//         */
+//        if (entry.mPriority <= mMin.mPriority)
+//            mMin = entry;
+//    }
 
     /**
      * Cuts a node from its parent.  If the parent was already marked, recursively
@@ -468,54 +468,54 @@ public final class FibonacciHeap<T> {
      *
      * @param entry The node to cut from its parent.
      */
-    private void cutNode(Entry<T> entry) {
-        /* Begin by clearing the node's mark, since we just cut it. */
-        entry.mIsMarked = false;
-
-        /* Base case: If the node has no parent, we're done. */
-        if (entry.mParent == null) return;
-
-        /* Rewire the node's siblings around it, if it has any siblings. */
-        if (entry.mNext != entry) { // Has siblings
-            entry.mNext.mPrev = entry.mPrev;
-            entry.mPrev.mNext = entry.mNext;
-        }
-
-        /* If the node is the one identified by its parent as its child,
-         * we need to rewrite that pointer to point to some arbitrary other
-         * child.
-         */
-        if (entry.mParent.mChild == entry) {
-            /* If there are any other children, pick one of them arbitrarily. */
-            if (entry.mNext != entry) {
-                entry.mParent.mChild = entry.mNext;
-            }
-            /* Otherwise, there aren't any children left and we should clear the
-             * pointer and drop the node's degree.
-             */
-            else {
-                entry.mParent.mChild = null;
-            }
-        }
-
-        /* Decrease the degree of the parent, since it just lost a child. */
-        --entry.mParent.mDegree;
-
-        /* Splice this tree into the root list by converting it to a singleton
-         * and invoking the merge subroutine.
-         */
-        entry.mPrev = entry.mNext = entry;
-        mMin = mergeLists(mMin, entry);
-
-        /* Mark the parent and recursively cut it if it's already been
-         * marked.
-         */
-        if (entry.mParent.mIsMarked)
-            cutNode(entry.mParent);
-        else
-            entry.mParent.mIsMarked = true;
-
-        /* Clear the relocated node's parent; it's now a root. */
-        entry.mParent = null;
-    }
+//    private void cutNode(Entry<T> entry) {
+//        /* Begin by clearing the node's mark, since we just cut it. */
+//        entry.mIsMarked = false;
+//
+//        /* Base case: If the node has no parent, we're done. */
+//        if (entry.mParent == null) return;
+//
+//        /* Rewire the node's siblings around it, if it has any siblings. */
+//        if (entry.mNext != entry) { // Has siblings
+//            entry.mNext.mPrev = entry.mPrev;
+//            entry.mPrev.mNext = entry.mNext;
+//        }
+//
+//        /* If the node is the one identified by its parent as its child,
+//         * we need to rewrite that pointer to point to some arbitrary other
+//         * child.
+//         */
+//        if (entry.mParent.mChild == entry) {
+//            /* If there are any other children, pick one of them arbitrarily. */
+//            if (entry.mNext != entry) {
+//                entry.mParent.mChild = entry.mNext;
+//            }
+//            /* Otherwise, there aren't any children left and we should clear the
+//             * pointer and drop the node's degree.
+//             */
+//            else {
+//                entry.mParent.mChild = null;
+//            }
+//        }
+//
+//        /* Decrease the degree of the parent, since it just lost a child. */
+//        --entry.mParent.mDegree;
+//
+//        /* Splice this tree into the root list by converting it to a singleton
+//         * and invoking the merge subroutine.
+//         */
+//        entry.mPrev = entry.mNext = entry;
+//        mMin = mergeLists(mMin, entry);
+//
+//        /* Mark the parent and recursively cut it if it's already been
+//         * marked.
+//         */
+//        if (entry.mParent.mIsMarked)
+//            cutNode(entry.mParent);
+//        else
+//            entry.mParent.mIsMarked = true;
+//
+//        /* Clear the relocated node's parent; it's now a root. */
+//        entry.mParent = null;
+//    }
 }

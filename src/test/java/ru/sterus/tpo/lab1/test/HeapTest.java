@@ -5,6 +5,7 @@ import ru.sterus.tpo.lab1.structures.Entry;
 import ru.sterus.tpo.lab1.structures.FibonacciHeap;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @DisplayName("Fibonacci Heap test")
@@ -143,6 +144,12 @@ public class HeapTest implements TestLifecycleLogger{
             Assertions.assertTrue(checkTree(tmp));
             tmp = tmp.mNext;
         } while (tmp != fibonacciHeap.min());
+    }
+
+    @Test
+    @DisplayName("Get min from empty heap test")
+    void minFromEmptyHeapTest() {
+        Assertions.assertThrowsExactly(NoSuchElementException.class, () -> fibonacciHeap.min());
     }
 
     @BeforeEach
