@@ -6,7 +6,6 @@ import ru.sterus.tpo.lab1.model.MyColor;
 import ru.sterus.tpo.lab1.model.Sky;
 import ru.sterus.tpo.lab1.model.Thunder;
 
-import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -30,8 +29,9 @@ public class ModelTest implements TestLifecycleLogger{
     private Sky sky;
     @BeforeEach
     void initNewSky(){
-        List<FlyingEntity> entities = Stream.generate(ModelTest::generateOne).limit(new Random().nextInt(10) + 1).collect(Collectors.toList());
-        sky = new Sky(entities);
+        sky = new Sky(
+            Stream.generate(ModelTest::generateOne).limit(new Random().nextInt(10) + 1).collect(Collectors.toList())
+        );
     }
 
     @RepeatedTest(10)

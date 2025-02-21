@@ -62,59 +62,6 @@ public final class FibonacciHeap<T> {
      * we guard against external modification by marking the internal fields
      * private.
      */
-    public static final class Entry<T> {
-        private int     mDegree = 0;       // Number of children
-        private boolean mIsMarked = false; // Whether this node is marked
-
-        private Entry<T> mNext;   // Next and previous elements in the list
-        private Entry<T> mPrev;
-
-        private Entry<T> mParent; // Parent in the tree, if any.
-
-        private Entry<T> mChild;  // Child node, if any.
-
-        private T      mElem;     // Element being stored here
-        private double mPriority; // Its priority
-
-        /**
-         * Returns the element represented by this heap entry.
-         *
-         * @return The element represented by this heap entry.
-         */
-        public T getValue() {
-            return mElem;
-        }
-        /**
-         * Sets the element associated with this heap entry.
-         *
-         * @param value The element to associate with this heap entry.
-         */
-        public void setValue(T value) {
-            mElem = value;
-        }
-
-        /**
-         * Returns the priority of this element.
-         *
-         * @return The priority of this element.
-         */
-        public double getPriority() {
-            return mPriority;
-        }
-
-        /**
-         * Constructs a new Entry that holds the given element with the indicated
-         * priority.
-         *
-         * @param elem The element stored in this node.
-         * @param priority The priority of this element.
-         */
-        private Entry(T elem, double priority) {
-            mNext = mPrev = this;
-            mElem = elem;
-            mPriority = priority;
-        }
-    }
 
     /* Pointer to the minimum element in the heap. */
     private Entry<T> mMin = null;
