@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public interface TestLifecycleLogger {
-    static final Logger logger = Logger.getLogger(TestLifecycleLogger.class.getName());
+    Logger logger = Logger.getLogger(TestLifecycleLogger.class.getName());
     @BeforeAll
     default void beforeAll(TestInfo info){
         logger.info("TestLifecycleLogger started on: " + info.getDisplayName());
