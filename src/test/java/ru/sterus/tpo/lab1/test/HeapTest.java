@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 @DisplayName("Fibonacci Heap test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class HeapTest implements TestLifecycleLogger{
     private static final Integer MAX_COUNT_OF_ELEM = 100;
     private static final String EMPTY_HEAP_ERROR = "Fibonacci heap has to be empty";

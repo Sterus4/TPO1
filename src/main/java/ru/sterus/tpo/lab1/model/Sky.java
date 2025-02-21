@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Sky {
     private final List<FlyingEntity> flyingEntities;
+    private int airDestruction = 0;
     public Sky(List<FlyingEntity> flyingEntities) {
         this.flyingEntities = flyingEntities;
         addEntity(new FlyingEntity(MyColor.YELLOW, new Thunder()));
@@ -18,6 +19,7 @@ public class Sky {
         flyingEntities.get(0).move();
         flyingEntities.get(0).disappear();
         flyingEntities.remove(0);
+        airDestruction++;
     }
     public void moveAll(){
         System.out.println("Все множество этих нечт двигается по небу: ");
@@ -25,6 +27,7 @@ public class Sky {
             flyingEntities.get(0).move();
             flyingEntities.get(0).disappear();
             flyingEntities.remove(0);
+            airDestruction++;
         }
 
     }
@@ -34,5 +37,9 @@ public class Sky {
 
     public List<FlyingEntity> getFlyingEntities() {
         return flyingEntities;
+    }
+
+    public int getAirDestruction() {
+        return airDestruction;
     }
 }

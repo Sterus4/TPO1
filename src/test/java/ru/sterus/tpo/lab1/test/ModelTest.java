@@ -17,6 +17,7 @@ public class ModelTest implements TestLifecycleLogger{
     private static final String MIN_VALUE_ERROR_MESSAGE = "Значение Volume у класса Thunder должно быть >= " + MIN_VOLUME;
     private static final String EMPTY_LIST_ERROR_MESSAGE = "После операции moveAll Sky должен быть пустой";
     private static final String AT_LEAST_ONE_YELLOW_ERROR = "В небе должен быть хотя бы одно нечто с желтым цветом";
+    private static final String AIR_DESTRUCTION_TEST_ERROR = "Количество разрывов воздуха должно быть равно количеству Entity";
 
     private static <T extends Enum<?>> T randomEnum(Class<T> clazz){
         int x = new Random().nextInt(clazz.getEnumConstants().length);
@@ -49,5 +50,12 @@ public class ModelTest implements TestLifecycleLogger{
     @Test
     void ifYellowExist(){
         Assertions.assertTrue(sky.getFlyingEntities().stream().anyMatch((f) -> f.getColor() == MyColor.YELLOW), AT_LEAST_ONE_YELLOW_ERROR);
+    }
+
+    @Test
+    void airDestructionTest(){
+        int currentNumberOfDestruction = sky.getFlyingEntities().size();
+        sky.moveAll();
+        Assertions.assertEquals(sky.getAirDestruction(), currentNumberOfDestruction, AIR_DESTRUCTION_TEST_ERROR);
     }
 }
