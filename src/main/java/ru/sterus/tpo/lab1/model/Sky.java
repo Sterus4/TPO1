@@ -5,9 +5,10 @@ import ru.sterus.tpo.lab1.model.exception.EmptyListException;
 import java.util.List;
 
 public class Sky {
-    private List<FlyingEntity> flyingEntities;
+    private final List<FlyingEntity> flyingEntities;
     public Sky(List<FlyingEntity> flyingEntities) {
         this.flyingEntities = flyingEntities;
+        addEntity(new FlyingEntity(MyColor.YELLOW, new Thunder()));
     }
     public void moveOne() throws EmptyListException {
         if(flyingEntities.isEmpty()){
@@ -29,5 +30,9 @@ public class Sky {
     }
     public void addEntity(FlyingEntity flyingEntity){
         flyingEntities.add(flyingEntity);
+    }
+
+    public List<FlyingEntity> getFlyingEntities() {
+        return flyingEntities;
     }
 }

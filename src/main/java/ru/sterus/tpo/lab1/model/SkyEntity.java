@@ -16,4 +16,8 @@ abstract class SkyEntity implements SkyObject {
     public void disappear() {
         System.out.println("Объект исчезает вдали.");
     }
+
+    public MyColor getColor() {
+        return color;
+    }
 }

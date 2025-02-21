@@ -28,7 +28,8 @@ public class FlyingEntity extends SkyEntity implements SoundEmitter{
         super.disappear();
     }
 
-    public int getCurrentId() {
-        return this.currentId;
+    public Thunder getThunder() {
+        return thunder;
     }
+
 }
