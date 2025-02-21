@@ -13,6 +13,7 @@ public class HeapTest implements TestLifecycleLogger{
     private static final String EMPTY_HEAP_ERROR = "Fibonacci heap has to be empty";
     private static final String HEAP_SIZE_ERROR = "Fibonacci heap has wrong amount of elements";
     private static final String HEAP_DEGREE_ERROR = "Max degree of any node in fibonacci heap must be log(n) + 1";
+    private static final String HEAP_STRUCTURE_ERROR = "Fibonacci heap has not correct structure";
 
     private final Random random = new Random();
     private FibonacciHeap<Integer> fibonacciHeap;
@@ -20,6 +21,17 @@ public class HeapTest implements TestLifecycleLogger{
 
     private String errorOnData(List<Integer> data){
         return String.format("Fibonacci heap property of sorted output not met on data: \n\t%s", data.toString());
+    }
+
+    private void debugEntry(Entry<?> entry, int level){
+        System.out.print("----".repeat(level) + " ");
+        System.out.println(entry.mDegree);
+        if(entry.mChild == null) return;
+        Entry<?> temp = entry.mChild;
+        do{
+            debugEntry(temp, level + 1);
+            temp = temp.mNext;
+        } while (temp != entry.mChild);
     }
 
     @BeforeEach
@@ -83,4 +95,51 @@ public class HeapTest implements TestLifecycleLogger{
         Assertions.assertTrue(result <= Math.log(fibonacciHeap.size())/Math.log(2), HEAP_DEGREE_ERROR);
     }
 
+    private boolean checkLayer(Entry<?> node, int limit){
+        Entry<?> tmp = node;
+        Set<Integer> degrees = new HashSet<>();
+        int maxDegree = -1;
+        do {
+            degrees.add(tmp.mDegree);
+            if(tmp.mDegree > maxDegree) maxDegree = tmp.mDegree;
+            tmp = tmp.mNext;
+        } while (tmp != node);
+        return degrees.size() == limit && maxDegree < limit;
+    }
+
+    private boolean checkTree(Entry<?> node){
+        if(node.mChild == null) return true;
+        Entry<?> tmp = node.mChild;
+        if(!checkLayer(tmp, node.mDegree)) return false;
+        do {
+            if(!checkTree(tmp)) return false;
+            tmp = tmp.mNext;
+        } while(tmp != node.mChild);
+        return true;
+    }
+
+    @RepeatedTest(100)
+    @DisplayName("Test of correct Fibonacci Heap structute")
+    void structureTest(){
+        Assertions.assertTrue(fibonacciHeap.isEmpty(), EMPTY_HEAP_ERROR);
+        List<Integer> data        = Stream.generate(random::nextInt).limit(countOfElems + 2).toList();
+        data.forEach(a -> fibonacciHeap.enqueue(a, a));
+        fibonacciHeap.dequeueMin();
+        Assertions.assertEquals(fibonacciHeap.size(), countOfElems + 1, HEAP_SIZE_ERROR);
+
+        Entry<Integer> tmp = fibonacciHeap.min();
+        int countNodesInFirstLayer = 0;
+        Set<Integer> degreesOfFirstLayer = new HashSet<>();
+        do {
+            countNodesInFirstLayer++;
+            degreesOfFirstLayer.add(tmp.mDegree);
+            tmp = tmp.mNext;
+        } while (tmp != fibonacciHeap.min());
+        Assertions.assertEquals(countNodesInFirstLayer, degreesOfFirstLayer.size(), HEAP_STRUCTURE_ERROR);
+        tmp = fibonacciHeap.min();
+        do {
+            Assertions.assertTrue(checkTree(tmp));
+            tmp = tmp.mNext;
+        } while (tmp != fibonacciHeap.min());
+    }
 }
